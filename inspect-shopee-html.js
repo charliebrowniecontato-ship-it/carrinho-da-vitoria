@@ -1,0 +1,2 @@
+const urls=['https://s.shopee.com.br/3VkiWwLD7e','https://s.shopee.com.br/3LRIKdLqSd'];
+(async()=>{for(const u of urls){const r=await fetch(u,{redirect:'follow',headers:{'user-agent':'Mozilla/5.0'}});const h=await r.text();console.log('---',u,'len',h.length);for(const pat of ['image','images','down-br.img.susercontent.com','cf.shopee.com.br']){const i=h.indexOf(pat);console.log(pat,i,i>=0?h.slice(Math.max(0,i-300),i+700):'')}}})();

@@ -1,0 +1,2 @@
+const urls=['https://s.shopee.com.br/3VkiWwLD7e','https://s.shopee.com.br/3LRIKdLqSd'];
+(async()=>{for(const u of urls){try{const r=await fetch(u,{redirect:'follow',headers:{'user-agent':'Mozilla/5.0'}});const html=await r.text();const m=html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)/i)||html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);console.log('URL='+u);console.log('FINAL='+r.url);console.log('IMG='+(m?m[1]:''));}catch(e){console.log('ERR='+u+' '+e.message)}}})();

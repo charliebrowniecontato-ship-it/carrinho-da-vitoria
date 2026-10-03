@@ -1,0 +1,5 @@
+.env
+.env.*
+.sync-secret
+.vercel
+node_modules
