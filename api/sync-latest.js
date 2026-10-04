@@ -29,7 +29,7 @@ module.exports=async function handler(req,res){
   if(!p||!p.title||!p.link) return res.status(400).json({ok:false,error:'invalid_product'});
   const token=process.env.TELEGRAM_BOT_TOKEN, chat=process.env.TELEGRAM_CHAT_ID;
   if(!token||!chat) return res.status(500).json({ok:false,error:'telegram_env_missing'});
-  const siteUrl=p.siteUrl||'https://carrinhodavitoria.setyourday.com.br/produto/'+slugify(p.title);
+  const siteUrl=p.siteUrl||'https://carrinhodavitoria.setyourday.com.br/produto/'+encodeURIComponent(p.slug||p.id||slugify(p.title));
   const caption=buildCaption(p,siteUrl);
   const reply_markup={inline_keyboard:[
     [{text:'🛒 VER ACHADO NO SITE',url:siteUrl}],

@@ -402,9 +402,9 @@ function renderCategories(){document.getElementById('categoryGrid').innerHTML=CA
 const PRODUCT_HASH_PREFIX='#produto/';
 let hashBeforeProduct='#produtos';
 const slugify=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
-const getProductSlug=p=>p.slug||slugify(p.title);
+const getProductSlug=p=>p.slug||p.id||slugify(p.title);
 const getProductUrl=p=>`${window.location.origin}/produto/${getProductSlug(p)}`;
-const getProductBySlug=slug=>PRODUCTS.find(p=>getProductSlug(p)===slug||p.id===slug);
+const getProductBySlug=slug=>PRODUCTS.find(p=>getProductSlug(p)===slug||p.id===slug||slugify(p.title)===slug);
 const shareCopy=p=>`Olha esse achado que encontrei no Carrinho da Vitória: ${p.title} — a partir de ${money(p.price)}.`;
 
 function updateProductMeta(p){
@@ -431,8 +431,8 @@ function openProduct(id,{updateHash=true}={}){const p=PRODUCTS.find(x=>x.id===id
 function toggleSharePanel(force){const panel=document.getElementById('sharePanel');if(!panel)return;const shouldOpen=typeof force==='boolean'?force:panel.hidden;panel.hidden=!shouldOpen;if(shouldOpen)setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),30)}
 async function nativeShare(id){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;const data={title:`${p.title} | Carrinho da Vitória`,text:shareCopy(p),url:getProductUrl(p)};if(navigator.share){try{await navigator.share(data);return}catch(e){if(e.name==='AbortError')return}}await copyProductLink(id)}
 async function copyProductLink(id,button){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;const full=`${shareCopy(p)} ${getProductUrl(p)}`;try{await navigator.clipboard.writeText(full)}catch{const t=document.createElement('textarea');t.value=full;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}if(button){const b=button.querySelector('b');const s=button.querySelector('small');if(b)b.textContent='Copiado!';if(s)s.textContent='Pronto para enviar';setTimeout(()=>{if(b)b.textContent='Copiar link';if(s)s.textContent='Link direto'},1800)}}
-function closeProductDialog(){const dlg=document.getElementById('productDialog');if(dlg.open)dlg.close();document.title='Carrinho da Vitória | Achadinhos, ofertas e produtos selecionados';if(window.location.hash.startsWith(PRODUCT_HASH_PREFIX))history.replaceState(null,'',hashBeforeProduct||'#produtos')}
-function syncProductFromHash(){if(!window.location.hash.startsWith(PRODUCT_HASH_PREFIX))return;const slug=decodeURIComponent(window.location.hash.slice(PRODUCT_HASH_PREFIX.length));const p=getProductBySlug(slug);if(p)openProduct(p.id,{updateHash:false})}
+function closeProductDialog(){const dlg=document.getElementById('productDialog');if(dlg.open)dlg.close();document.title='Carrinho da Vitória | Achadinhos, ofertas e produtos selecionados';if(window.location.hash.startsWith(PRODUCT_HASH_PREFIX)||/^\/produto\//.test(window.location.pathname))history.replaceState(null,'',`/${window.location.search}${hashBeforeProduct||'#produtos'}`)}
+function syncProductFromHash(){const path=window.location.pathname.match(/^\/produto\/([^/]+)\/?$/);const raw=window.location.hash.startsWith(PRODUCT_HASH_PREFIX)?window.location.hash.slice(PRODUCT_HASH_PREFIX.length):path?.[1];let p;try{p=raw?getProductBySlug(decodeURIComponent(raw)):null}catch{p=null}if(p){openProduct(p.id,{updateHash:false});return}const dlg=document.getElementById('productDialog');if(dlg.open){dlg.close();document.title='Carrinho da Vitória | Achadinhos, ofertas e produtos selecionados'}}
 
 function addToCart(id,qty=1){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;const existing=cart.find(item=>item.id===id);if(existing&&isDirectProduct(p))existing.qty+=Math.max(1,qty);else if(!existing)cart.push({id,qty:Math.max(1,qty)});saveCart();renderCart();document.getElementById('cartDrawer').classList.add('open');document.getElementById('backdrop').classList.remove('hidden')}
 function buyDirectNow(id){addToCart(id);closeCart();openCheckout()}
@@ -453,7 +453,7 @@ dotsWrap.innerHTML=slides.map((_,i)=>`<button class="dot ${i===0?'active':''}" a
 function showSlide(next){slide=(next+slides.length)%slides.length;slides.forEach((s,i)=>s.classList.toggle('active',i===slide));[...dotsWrap.children].forEach((d,i)=>d.classList.toggle('active',i===slide));restartHeroTimer()}
 function restartHeroTimer(){clearInterval(heroTimer);heroTimer=setInterval(()=>showSlide(slide+1),6500)}
 dotsWrap.addEventListener('click',e=>{const d=e.target.closest('.dot');if(d)showSlide(Number(d.dataset.slide))});document.getElementById('heroPrev').onclick=()=>showSlide(slide-1);document.getElementById('heroNext').onclick=()=>showSlide(slide+1);restartHeroTimer();
-renderCategories();renderFeatured();renderProducts();renderCart();syncProductFromHash();window.addEventListener('hashchange',()=>{if(window.location.hash.startsWith(PRODUCT_HASH_PREFIX))syncProductFromHash();else{const dlg=document.getElementById('productDialog');if(dlg.open){dlg.close();document.title='Carrinho da Vitória | Achadinhos, ofertas e produtos selecionados'}}});
+renderCategories();renderFeatured();renderProducts();renderCart();syncProductFromHash();window.addEventListener('hashchange',syncProductFromHash);window.addEventListener('popstate',syncProductFromHash);
 
 // Progressive UX motion, respecting reduced-motion preferences.
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
