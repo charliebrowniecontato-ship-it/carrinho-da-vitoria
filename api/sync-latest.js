@@ -9,6 +9,7 @@ function buildCaption(p,siteUrl){
     '',
     old?'💸 '+old+'  →  '+price:'💸 '+price,
     p.discount?'🏷️ '+p.discount+'% OFF':'',
+    p.coupon?'🎟️ CUPOM: '+p.coupon.label+(p.coupon.minPurchase?' em compras acima de '+money(p.coupon.minPurchase):'')+' — resgate no próprio anúncio antes de finalizar.':'',
     p.rating?'⭐ '+p.rating+(p.reviews?' · '+p.reviews:''):'',
     '',
     ...(p.features||[]).slice(0,4).map(x=>'✅ '+x),
@@ -33,6 +34,7 @@ module.exports=async function handler(req,res){
   const caption=buildCaption(p,siteUrl);
   const reply_markup={inline_keyboard:[
     [{text:'🛒 VER ACHADO NO SITE',url:siteUrl}],
+    ...(p.coupon?[[{text:'🎟️ RESGATAR CUPOM NA SHOPEE',url:p.link}]]:[]),
     [{text:'⚡ IR DIRETO À OFERTA',url:p.link}]
   ]};
   const base='https://api.telegram.org/bot'+token;
