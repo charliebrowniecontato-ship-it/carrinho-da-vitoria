@@ -26,4 +26,4 @@ O teste NavigationPolicyTest verifica os domínios permitidos, links externos e 
 
 ## Estado de entrega
 
-APK compilado, assinatura e alinhamento verificados. A ativação e a publicação do painel ainda estão pendentes; o APK exibirá indisponibilidade até `/gestao` estar no ar. Ainda não houve teste instalado em um celular nem validação completa do login em produção.
+APK compilado, assinatura e alinhamento verificados. O painel `/gestao` foi publicado e responde com HTTP 200. O titular deve criar sua senha no link de ativação antes do primeiro login. Ainda não houve teste instalado em um celular físico.

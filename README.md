@@ -21,15 +21,15 @@ Banco do projeto Supabase `wolzhvptnlovaltegujl`, schema privado `cv`. Tabelas s
 
 Fotos comprimidas, até 270 KB cada, são guardadas no banco e servidas pela API com verificação de acesso. Esta escolha evita exigir mais um serviço; se o catálogo crescer muito, migrar as fotos para armazenamento de objetos.
 
-## Ativação pendente
+## Publicação e ativação
 
-As variáveis abaixo precisam ser configuradas no projeto Vercel `prj_grpIMRZGeGA6gai1vLcECIkJU6kj`, conta `charliebrowniecontato-7772`, antes de lançar esta versão em produção:
+As variáveis abaixo foram configuradas como protegidas no projeto Vercel `prj_grpIMRZGeGA6gai1vLcECIkJU6kj`, conta `charliebrowniecontato-7772`:
 
 - `CV_SUPABASE_URL`: URL pública do banco.
 - `CV_SUPABASE_KEY`: chave publicável do projeto, usada somente no servidor deste app.
 - `CV_GATE_SECRET`: segredo aleatório exclusivo deste painel. O banco guarda somente seu SHA-256 em `cv.settings`. Não é uma chave de uma conta externa.
 
-O catálogo e o schema foram preparados; a configuração das variáveis e a publicação real foram bloqueadas pela revisão automática. Não lançar esta versão em produção enquanto a configuração não estiver concluída.
+O painel foi publicado em `https://carrinhodavitoria.setyourday.com.br/gestao` em 10 de outubro de 2026, após autorização explícita do proprietário. O catálogo público responde com os 26 produtos originais. Arquivos privados, schema, chaves e código Android ficam fora do envio da aplicação à Vercel.
 
 O ambiente existente possui `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID`. Opcionalmente, `TELEGRAM_CHAT_IDS` e `TELEGRAM_COUPON_CHAT_IDS` aceitam destinos adicionais, separados por vírgula. Nenhum disparo real foi feito durante os testes.
 
@@ -41,6 +41,8 @@ O APK Carrinho Gestão 1.0.0 para Android 8+ foi compilado com o ícone oficial 
 
 `npm test`: sete testes de URLs permitidas, sessão/origem, campos opcionais, metadados, métricas sem IP original, destinos e envios incertos.
 
-`tests/database.sql`: valida acesso, publicação e fila dentro de uma transação revertida. Foi executado com sucesso antes da criação do primeiro administrador real. Não executar o teste de ativação inicial em um banco que já tenha administrador; use um banco de teste.
+`tests/database.sql`: valida ativação, login com senha, permissões, rascunhos, publicação, fila, concorrência, deduplicação de cliques, pausa e revogação em uma transação revertida. O administrador de teste é separado do titular e nenhuma conta de teste permanece no banco. Não executar se os identificadores de QA já existirem ou houver operações concorrentes sobre eles.
 
-Verificações feitas: 26 produtos publicados preservados, testes de banco revertidos, administrador reservado sem senha e zero disparos reais. Não há verificação em produção desta versão até a ativação das variáveis. Os testes de bootstrap devem ser executados em banco isolado agora que o administrador foi reservado.
+Verificações em produção: login HTTP 200, catálogo HTTP 200 com 26 produtos, sessão ausente e senha inválida HTTP 401, origem externa bloqueada com HTTP 403, scripts públicos disponíveis e arquivos privados HTTP 404. Administrador reservado sem senha, zero contas de QA e zero disparos reais. O titular deve concluir o primeiro acesso pelo link individual e definir a própria senha. Não houve teste visual em navegador nem instalação em um celular físico.
+
+`api/integracao.js` verifica acesso do bot aos destinos sem publicar mensagens. Exige a chave de sincronização existente e não retorna credenciais.

@@ -3,12 +3,16 @@ update cv.settings set value=encode(extensions.digest('cv-test-gate','sha256'),'
 do $$
 declare a jsonb; u jsonb; c jsonb; v jsonb; r jsonb; s text; cs text; vs text; cid text; job jsonb; i jsonb;
 begin
- insert into cv.invites(token_hash) values(encode(extensions.digest('test-owner-code','sha256'),'hex'));
+ insert into cv.members(email,name,role) values('owner-test@example.invalid','QA temporário','admin');
+ insert into cv.invites(token_hash,member_id) select encode(extensions.digest('test-owner-code','sha256'),'hex'),id from cv.members where email='owner-test@example.invalid';
  a=public.cv_rpc('cv-test-gate','activate','{"code":"test-owner-code","email":"owner-test@example.invalid","name":"QA","password":"test-password-only"}'::jsonb);
  if not (a->>'ok')::boolean then raise exception 'Owner activation: %',a; end if;
  s=a->>'session';
  r=public.cv_rpc('cv-test-gate','login','{"email":"owner-test@example.invalid","password":"incorrect"}'::jsonb);
  if r->>'error'<>'invalid_credentials' then raise exception 'Invalid login accepted'; end if;
+ r=public.cv_rpc('cv-test-gate','login','{"email":"owner-test@example.invalid","password":"test-password-only"}'::jsonb);
+ if not (r->>'ok')::boolean then raise exception 'Email/password login failed'; end if;
+ s=r->>'session';
  u=public.cv_rpc('cv-test-gate','invite','{"email":"contributor-test@example.invalid","name":"Colaborador QA","role":"contributor"}'::jsonb,s);
  c=public.cv_rpc('cv-test-gate','activate',jsonb_build_object('code',u->>'code','email','contributor-test@example.invalid','password','test-password-only'));
  cs=c->>'session';cid=c->'user'->>'id';
