@@ -1,0 +1,2 @@
+const {rpc,session,csrf}=require('../lib/backend');const {metadata}=require('../lib/metadata');
+module.exports=async(req,res)=>{res.setHeader('Cache-Control','no-store');if(req.method!=='POST'||!csrf(req))return res.status(403).json({ok:false});try{const me=await rpc('me',{},session(req));if(!me.ok||me.user.role==='viewer')return res.status(403).json({ok:false});const info=await metadata(req.body?.url);res.json({ok:true,info});}catch(e){res.status(422).json({ok:false,message:e.message});}};

@@ -1,0 +1,1 @@
+const fs=require('node:fs');fs.mkdirSync('public',{recursive:true});for(const f of ['index.html','gestao.html','gestao.css','gestao.js','loja-gestao.js','robots.txt','manifest-gestao.json'])if(fs.existsSync(f))fs.copyFileSync(f,'public/'+f);console.log('Loja e gestão preparadas.');

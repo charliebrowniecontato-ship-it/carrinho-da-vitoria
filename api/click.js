@@ -1,0 +1,2 @@
+const {rpc,csrf}=require('../lib/backend');const {tracking}=require('../lib/tracking');
+module.exports=async(req,res)=>{res.setHeader('Cache-Control','no-store');if(req.method!=='POST'||!csrf(req))return res.status(403).end();const b=req.body||{};if(b.action!=='view'&&!/^[a-z0-9-]{1,120}$/.test(b.id||''))return res.status(400).end();try{await rpc(b.action==='view'?'view':'click',{id:b.id,source:'site',...tracking(req)});res.status(204).end();}catch{res.status(503).end();}};
