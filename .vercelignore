@@ -12,3 +12,12 @@ tests
 tools
 README.md
 scripts/extract-catalog.js
+*.ps1
+*.py
+patch.js
+publish-*.js
+get-*.js
+check-env.js
+inspect-shopee-html.js
+list-products.js
+welcome-group.js
