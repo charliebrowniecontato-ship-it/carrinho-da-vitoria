@@ -1,0 +1,17 @@
+{
+  "name": "Gestão Carrinho da Vitória",
+  "short_name": "Carrinho Gestão",
+  "start_url": "/gestao",
+  "scope": "/gestao",
+  "display": "standalone",
+  "theme_color": "#4a004c",
+  "background_color": "#faf7fb",
+  "icons": [
+    {
+      "src": "/assets/brand/carrinho.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}

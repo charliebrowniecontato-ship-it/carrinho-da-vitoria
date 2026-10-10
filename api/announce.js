@@ -5,6 +5,15 @@ module.exports=async function handler(req,res){
   if(!process.env.BOT_SYNC_SECRET||secret!==process.env.BOT_SYNC_SECRET) return res.status(401).json({ok:false,error:'unauthorized'});
   const token=process.env.TELEGRAM_BOT_TOKEN, chat=process.env.TELEGRAM_CHAT_ID;
   if(!token||!chat) return res.status(500).json({ok:false,error:'telegram_env_missing'});
+  if(req.body && Object.prototype.hasOwnProperty.call(req.body,'text')){
+    const text=req.body.text;
+    if(typeof text!=='string'||!text.trim()||text.length>4096) return res.status(400).json({ok:false,error:'invalid_text'});
+    const tg=await fetch('https://api.telegram.org/bot'+token+'/sendMessage',{
+      method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({chat_id:chat,text,disable_web_page_preview:true})
+    }).then(r=>r.json());
+    return res.status(tg.ok?200:502).json({ok:!!tg.ok,result:tg.ok?{message_id:tg.result&&tg.result.message_id}:tg});
+  }
   const site='https://carrinhodavitoria.setyourday.com.br/';
   const instagram='https://www.instagram.com/carrinhodavitoria/';
   const shopee='https://l.instagram.com/?u=https%3A%2F%2Fs.shopee.com.br%2FAKZ5WcSZ57%3Futm_source%3Dig%26utm_medium%3Dsocial%26utm_content%3Dlink_in_bio%26fbclid%3DPAZXh0bgNhZW0DMTAwAHBkb2YCc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGnlOoNeoQ83WuFlHJUov-8wUMApLDkZYVOHlkRYPNfZBFbCGVVV5LhjTpgvAQ_aem_BIFjAEsncuXGft3BriBVhw&e=AUCjkmKbIDfOsjnZb3IhkIyLzi7xEQD1vREQb13qpivnthbyPnaC3dqk1KkFgof0JW7-5Q4IxmXcW0GugmfE-F977Foc42Ew50ZXu9cvp5C4sEg6RwWXlBYFl4_CCO61CQW_WFQkEHGMgWY2KojC1H8';

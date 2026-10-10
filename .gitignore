@@ -3,3 +3,6 @@
 .sync-secret
 .vercel
 node_modules
+
+.cv-*
+public/

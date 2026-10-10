@@ -1,0 +1,2 @@
+const {rpc,session}=require('../lib/backend');
+module.exports=async(req,res)=>{if(req.method!=='GET')return res.status(405).end();try{const r=await rpc('media',{id:req.query.id},session(req));if(!r.ok)return res.status(404).end();res.setHeader('Content-Type',r.mime);res.setHeader('Cache-Control',session(req)?'private, max-age=300':'public, max-age=0, s-maxage=30');res.setHeader('X-Content-Type-Options','nosniff');res.end(Buffer.from(r.base64,'base64'));}catch{res.status(503).end();}};
