@@ -1,1 +1,17 @@
-{"name":"Gestão Carrinho da Vitória","short_name":"Carrinho Gestão","start_url":"/gestao","scope":"/gestao","display":"standalone","theme_color":"#4a004c","background_color":"#faf7fb","icons":[{"src":"https://lh3.googleusercontent.com/d/17mpd-6N-X6nSrloN1fgoqQlNGaFkwIl3=w192","sizes":"192x192","type":"image/png"}]}
+{
+  "name": "Gestão Carrinho da Vitória",
+  "short_name": "Carrinho Gestão",
+  "start_url": "/gestao",
+  "scope": "/gestao",
+  "display": "standalone",
+  "theme_color": "#4a004c",
+  "background_color": "#faf7fb",
+  "icons": [
+    {
+      "src": "/assets/brand/carrinho.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}

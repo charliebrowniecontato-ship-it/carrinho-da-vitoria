@@ -1,6 +1,6 @@
 # Gestão Carrinho da Vitória
 
-Painel `/gestao`, integrado ao catálogo da vitrine e ao Telegram. O layout público da loja foi preservado. O catálogo inicial contém os mesmos 26 produtos, marcados como importados para não inventar um histórico de novos cadastros.
+Painel `/gestao`, integrado ao catálogo da vitrine e ao Telegram. A loja e a gestão receberam refinamento de UX/UI com os recursos oficiais da marca. O catálogo inicial contém os mesmos 26 produtos, marcados como importados para não inventar um histórico de novos cadastros.
 
 ## Funcionalidades
 
@@ -35,7 +35,7 @@ O ambiente existente possui `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID`. Opcionalm
 
 O administrador `charliebrowniecontato@gmail.com` foi reservado para Filipe Fortunato, sem senha definida. O convite inicial está vinculado somente a essa conta. Depois do lançamento, o titular escolhe a própria senha por um link de uso único. Links para os demais membros são gerados dentro do painel; nenhuma mensagem de convite é enviada automaticamente.
 
-O APK Carrinho Gestão 1.0.0 para Android 8+ foi compilado com o ícone oficial e a personagem Vitória. Assinatura v2/v3 e alinhamento verificados. Código em `android/`; chave privada fora do repositório. Acesso no APK depende da mesma ativação e publicação do site.
+O APK Carrinho Gestão 1.0.1 para Android 8+ foi compilado com o ícone oficial e a personagem Vitória. Assinatura v2/v3 e alinhamento verificados. Código em `android/`; chave privada fora do repositório. Acesso no APK depende da mesma ativação e publicação do site.
 
 ## Validação
 
@@ -46,3 +46,13 @@ O APK Carrinho Gestão 1.0.0 para Android 8+ foi compilado com o ícone oficial 
 Verificações em produção: login HTTP 200, catálogo HTTP 200 com 26 produtos, sessão ausente e senha inválida HTTP 401, origem externa bloqueada com HTTP 403, scripts públicos disponíveis e arquivos privados HTTP 404. Administrador reservado sem senha, zero contas de QA e zero disparos reais. O titular deve concluir o primeiro acesso pelo link individual e definir a própria senha. Não houve teste visual em navegador nem instalação em um celular físico.
 
 `api/integracao.js` verifica acesso do bot aos destinos sem publicar mensagens. Exige a chave de sincronização existente e não retorna credenciais.
+
+## Refinamento da loja e gestão
+
+Recursos oficiais da marca servidos pelo próprio site em WebP (logo, carrinho e imagem principal). Busca da loja com normalização de acentos, filtro de parceiro e ordenação; todos os produtos abrem detalhes e até cinco fotos antes de seguir ao afiliado. Convite do Telegram compacto, atalhos e carrossel com pausa e respeito à redução de movimento.
+
+Gestão com ícones SVG locais, textos mais legíveis, cartões de produtos no celular, menu com foco e fundo, etapas do cadastro, foto de capa, prévia móvel e envio ao Telegram visível. Escape e saída avisam sobre alterações não salvas. O gráfico apresenta estado vazio quando não há cliques. Atualização periódica evita redesenhar a interface quando os dados não mudam.
+
+APK 1.0.1 / versionCode 2 mantém pacote e assinatura, com ícones de navegação, estado selecionado e arte oficial atualizada. Não houve teste em aparelho físico nem verificação visual em navegador nesta sessão.
+
+Refinamento validado em DOM sem navegador: filtros da loja e da gestão, galeria, menu móvel, estado vazio, proteção de alterações e salvamento de rascunho. Publicação do refinamento pendente: computador autorizado sem resposta e conexão Vercel com HTTP 403. APK 1.0.1 pronto e salvo.

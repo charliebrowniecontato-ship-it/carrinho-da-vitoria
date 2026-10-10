@@ -1,4 +1,4 @@
-# Carrinho Gestão Android 1.0.0
+# Carrinho Gestão Android 1.0.1
 
 APK universal para Android 8.0 ou superior, pacote `com.carrinhodavitoria.gestao`.
 Abre `https://carrinhodavitoria.setyourday.com.br/gestao`; a aba Nossa loja abre a vitrine no mesmo domínio.
@@ -17,7 +17,7 @@ Java 17, Android SDK platform 35 e Build Tools 35.0.0. A assinatura fica fora do
 python3 android/build.py --sdk-root /caminho/android-sdk \
   --keystore /caminho/privado/carrinho-release.p12 \
   --password-file /caminho/privado/signing-password.txt \
-  --output /caminho/Carrinho-da-Vitoria-Gestao-1.0.0.apk
+  --output /caminho/Carrinho-da-Vitoria-Gestao-1.0.1.apk
 ```
 
 Preserve a mesma chave (alias `carrinho`) e incremente versionCode/versionName para atualizações.
