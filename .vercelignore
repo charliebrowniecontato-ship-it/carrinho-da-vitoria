@@ -1,0 +1,14 @@
+.cv-*
+.env*
+.sync-secret
+.git
+.vercel
+node_modules
+public
+android
+schema.sql
+catalog-seed.json
+tests
+tools
+README.md
+scripts/extract-catalog.js
