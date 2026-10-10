@@ -33,7 +33,9 @@ O catálogo e o schema foram preparados; a configuração das variáveis e a pub
 
 O ambiente existente possui `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID`. Opcionalmente, `TELEGRAM_CHAT_IDS` e `TELEGRAM_COUPON_CHAT_IDS` aceitam destinos adicionais, separados por vírgula. Nenhum disparo real foi feito durante os testes.
 
-Um token de ativação inicial foi gerado fora do repositório. Após o lançamento, a ativação permite criar o primeiro administrador. Links para os demais membros são gerados dentro do painel; nenhuma mensagem de convite é enviada automaticamente.
+O administrador `charliebrowniecontato@gmail.com` foi reservado para Filipe Fortunato, sem senha definida. O convite inicial está vinculado somente a essa conta. Depois do lançamento, o titular escolhe a própria senha por um link de uso único. Links para os demais membros são gerados dentro do painel; nenhuma mensagem de convite é enviada automaticamente.
+
+O APK Carrinho Gestão 1.0.0 para Android 8+ foi compilado com o ícone oficial e a personagem Vitória. Assinatura v2/v3 e alinhamento verificados. Código em `android/`; chave privada fora do repositório. Acesso no APK depende da mesma ativação e publicação do site.
 
 ## Validação
 
@@ -41,4 +43,4 @@ Um token de ativação inicial foi gerado fora do repositório. Após o lançame
 
 `tests/database.sql`: valida acesso, publicação e fila dentro de uma transação revertida. Foi executado com sucesso antes da criação do primeiro administrador real. Não executar o teste de ativação inicial em um banco que já tenha administrador; use um banco de teste.
 
-Verificações feitas: 26 produtos publicados preservados; zero membros reais e zero disparos reais após os testes. Não há verificação em produção desta versão até a ativação das variáveis.
+Verificações feitas: 26 produtos publicados preservados, testes de banco revertidos, administrador reservado sem senha e zero disparos reais. Não há verificação em produção desta versão até a ativação das variáveis. Os testes de bootstrap devem ser executados em banco isolado agora que o administrador foi reservado.

@@ -1,0 +1,6 @@
+build/
+test-build/
+*.apk
+*.p12
+*.jks
+*password*

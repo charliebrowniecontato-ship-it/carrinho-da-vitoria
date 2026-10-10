@@ -333,7 +333,7 @@ const PRODUCT_SPECS={
   'powerbank-magnetico-iphone':[['Tipo','Power bank por indução'],['Padrão sem fio','Qi'],['Variações','5000 mAh e 10000 mAh'],['Dimensões','9,5 × 6,5 × 1 cm'],['Peso','90 g'],['Entrada','Lightning · cabo não incluso'],['Garantia do vendedor','7 dias após recebimento']],
   'microfone-lapela-duplo-onistek':[['Marca','Onistek'],['Modelos','mc817 / mc816'],['Kit','2 microfones sem fio + case'],['Tecnologia sem fio','2,4 GHz · Bluetooth 5.2'],['Alcance informado','Até 25 m'],['Bateria dos microfones','55 mAh cada'],['Bateria do case','250 mAh'],['Autonomia informada','3–4 horas'],['Tempo de carga','~1,5 h'],['Conexão do receptor','Type-C ou Lightning'],['Homologação informada','10186-22-14899'],['Garantia do vendedor','30 dias']],
 };
-const getProductSpecs=p=>PRODUCT_SPECS[p.id]||[];
+const getProductSpecs=p=>p.specs?.length?p.specs:PRODUCT_SPECS[p.id]||[];
 
 // Arquitetura híbrida pronta para afiliados + dropshipping/venda direta.
 // Para ativar pagamentos, configure paymentProvider, directCheckoutEnabled=true
